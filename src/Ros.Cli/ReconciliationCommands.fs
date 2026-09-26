@@ -41,13 +41,13 @@ module ReconciliationCommands =
                   HashEnvelope = hashEnvelope
                   Clock = fun () -> DateTimeOffset.UtcNow }
             match ReconciliationOperations.reconcile store effects envelope with
-            | Applied receipt ->
+            | ReconciliationOutcome.Applied (receipt: ReconciliationReceipt) ->
                 printfn "APPLIED %s %s" receipt.TransactionId receipt.HeadCommit
                 0
-            | NoOp receipt ->
+            | ReconciliationOutcome.NoOp (receipt: ReconciliationReceipt) ->
                 printfn "NOOP %s" receipt.TransactionId
                 0
-            | Rejected receipt ->
+            | ReconciliationOutcome.Rejected (receipt: ReconciliationReceipt) ->
                 eprintfn "REJECT %s %s" receipt.TransactionId (String.concat "," receipt.FindingCodes)
                 2
 
