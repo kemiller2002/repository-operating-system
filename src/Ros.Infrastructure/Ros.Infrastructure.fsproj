@@ -16,6 +16,8 @@
     <Compile Include="Work/FileTelemetryStateRepository.fs" />
     <Compile Include="Work/FileWorkConfigRepository.fs" />
     <Compile Include="Work/FileEventLogRepository.fs" />
+    <Compile Include="Work/FileReconciliationStore.fs" />
+    <Compile Include="Work/ReconciliationEnvelopeJson.fs" />
     <Compile Include="Work/FileBacklogQueueRepository.fs" />
     <Compile Include="Work/FileWorkListRepository.fs" />
     <Compile Include="Artifacts/FrontMatter.fs" />

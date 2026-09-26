@@ -17,6 +17,7 @@
     <Compile Include="Lifecycle.fs" />
     <Compile Include="Foundations.fs" />
     <Compile Include="ProvenanceCommands.fs" />
+    <Compile Include="ReconciliationCommands.fs" />
     <Compile Include="Program.fs" />
   </ItemGroup>
 </Project>

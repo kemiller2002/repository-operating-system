@@ -273,3 +273,10 @@ module ProcessGitRepository =
         match runGit "git" (IO.Path.GetFullPath root) "git show" [ "show"; $"{revision}:{relativePath.Replace('\\', '/')}" ] with
         | Ok result when result.ExitCode = 0 -> Some result.Output
         | _ -> None
+
+    let commitExistsWithExecutable executable root (commit: string) =
+        match runGit executable (IO.Path.GetFullPath root) "git cat-file" [ "cat-file"; "-e"; $"{commit}^{{commit}}" ] with
+        | Ok result -> result.ExitCode = 0
+        | Error _ -> false
+
+    let commitExists root commit = commitExistsWithExecutable "git" root commit

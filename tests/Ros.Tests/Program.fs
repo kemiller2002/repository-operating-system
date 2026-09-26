@@ -7,6 +7,7 @@ let main _ =
     @ PersistenceTests.tests
     @ GitTests.tests
     @ WorkTests.tests
+    @ ReconciliationTests.tests
     @ WorkPlanTests.tests
     @ BacklogTests.tests
     @ TelemetryTests.tests

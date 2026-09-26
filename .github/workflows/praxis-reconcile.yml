@@ -1,0 +1,36 @@
+name: Praxis reconcile
+
+on:
+  pull_request:
+    paths:
+      - '.praxis/outbox/events/**'
+      - '.praxis/inbox/documents/**'
+      - 'input-documents/**'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  reconcile:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '10.0.x'
+      - name: Build Praxis
+        run: dotnet build src/Ros.Cli/Ros.Cli.fsproj --configuration Release
+      - name: Validate envelopes
+        shell: bash
+        run: |
+          set -euo pipefail
+          shopt -s nullglob
+          envelopes=(.praxis/outbox/events/*.json)
+          for envelope in "${envelopes[@]}"; do
+            dotnet run --project src/Ros.Cli/Ros.Cli.fsproj --configuration Release --no-build -- --root . reconcile --envelope "$envelope"
+          done
+      - name: Show pending input documents
+        run: dotnet run --project src/Ros.Cli/Ros.Cli.fsproj --configuration Release --no-build -- --root . inbox list
